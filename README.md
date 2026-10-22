@@ -14,6 +14,8 @@ A full panel for a 2-oscillator paraphonic synth, with keyboard, arpeggiator and
 ![No dependencies](https://img.shields.io/badge/dependencies-none-555)
 ![License](https://img.shields.io/badge/license-Apache%202.0-blue)
 
+<a href="https://stants.github.io/strudel37/"><b>▶ Play in the browser</b></a>
+
 <img src="docs/screenshot.jpg" alt="Strudel 37 in SPLIT mode: synth panel on top, code editor and keyboard below">
 
 </div>
@@ -46,6 +48,8 @@ Requires Android 7.0 (API 24) or newer. Sound comes from a native low-latency Ja
 
 ### Browser (HTML)
 
+**Play it online:** https://stants.github.io/strudel37/
+
 The web version is a single file with no install and no dependencies: [`HTML/strudel37.html`](HTML/strudel37.html).
 
 - The simplest way is to open the file directly in Chrome, Edge or Firefox.
@@ -57,7 +61,6 @@ The web version is a single file with no install and no dependencies: [`HTML/str
   # open http://localhost:8000/strudel37.html
   ```
 
-- You can also publish the `HTML/` folder on GitHub Pages and play from anywhere.
 
 ---
 
@@ -69,6 +72,7 @@ strudel37/
 │   └── Strudel37.apk          ready-to-install APK
 ├── HTML/
 │   └── strudel37.html         web version (the same file ships inside the APK)
+├── index.html                 GitHub Pages entry, opens HTML/strudel37.html
 ├── source/                    Android app source code
 │   ├── src/com/wil/strudel37/
 │   │   ├── MainActivity.java  full-screen WebView, soft keyboard, audio lifecycle
