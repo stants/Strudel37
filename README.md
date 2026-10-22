@@ -12,11 +12,12 @@ A full panel for a 2-oscillator paraphonic synth, with keyboard, arpeggiator and
 ![HTML](https://img.shields.io/badge/HTML-single%20file-E34F26?logo=html5&logoColor=white)
 ![Version](https://img.shields.io/badge/version-1.4.1-ff7a3d)
 ![No dependencies](https://img.shields.io/badge/dependencies-none-555)
+[![Live demo](https://img.shields.io/badge/live%20demo-play%20now-ff7a3d?logo=github)](https://stants.github.io/Strudel37/)
 ![License](https://img.shields.io/badge/license-Apache%202.0-blue)
 
-<a href="https://stants.github.io/strudel37/"><b>▶ Play in the browser</b></a>
+### [▶ Live demo: play it in your browser](https://stants.github.io/Strudel37/)
 
-<img src="docs/screenshot.jpg" alt="Strudel 37 in SPLIT mode: synth panel on top, code editor and keyboard below">
+<a href="https://stants.github.io/Strudel37/"><img src="docs/screenshot.jpg" alt="Strudel 37 in SPLIT mode: synth panel on top, code editor and keyboard below"></a>
 
 </div>
 
@@ -24,6 +25,7 @@ A full panel for a 2-oscillator paraphonic synth, with keyboard, arpeggiator and
 
 ## Contents
 
+- [Live demo](https://stants.github.io/Strudel37/)
 - [Download and install](#download-and-install)
 - [Repository layout](#repository-layout)
 - [Getting started](#getting-started)
@@ -48,7 +50,7 @@ Requires Android 7.0 (API 24) or newer. Sound comes from a native low-latency Ja
 
 ### Browser (HTML)
 
-**Play it online:** https://stants.github.io/strudel37/
+**Play it online:** https://stants.github.io/Strudel37/
 
 The web version is a single file with no install and no dependencies: [`HTML/strudel37.html`](HTML/strudel37.html).
 
