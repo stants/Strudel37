@@ -1,0 +1,11 @@
+# Signing key and password: never commit
+*.p12
+*.jks
+*.keystore
+.env
+
+# Build output
+source/build/
+source/tools/
+*.class
+.DS_Store
