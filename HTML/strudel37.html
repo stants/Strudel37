@@ -121,6 +121,11 @@ body.typing .sttop,body.typing .symbar{display:flex}
 body.typing .stside{display:none}
 body.typing .ststat{right:8px}
 #stDone{background:#ff7a3d;color:#1a0f08;border-color:#ff7a3d}
+.codeOnly{display:none!important}
+.kbarea[data-mode=code] .codeOnly{display:block!important}
+.sbody input[type=text]{flex:1;min-width:160px;background:#2b2521;color:var(--txt);border:1px solid #4b423a;border-radius:8px;padding:9px 10px;font:inherit}
+.devs .snipBtns{display:flex;gap:6px}
+#snips{z-index:25}
 .chips{display:flex;flex-wrap:wrap;gap:6px}
 .chip{background:#2b2521;color:var(--txt);border:1px solid #4b423a;border-radius:16px;padding:6px 11px;font:500 15px/1.1 inherit;font-family:inherit;cursor:pointer}
 .ref{font-size:15px;line-height:1.6;color:var(--txt)}
@@ -160,10 +165,10 @@ body.typing .ststat{right:8px}
       <div class="kbarea" id="kbarea" data-mode="split">
         <div class="kbgrip" id="kbGrip" aria-label="Drag to resize"></div>
         <div class="strudel" id="strudel">
-          <div class="sttop"><button class="stPlay">▶ Play</button><button class="stStop">■ Stop</button><span id="stCpm">30 cpm</span><span id="stCyc">cycle 0</span><span class="grow"></span><button class="fsDn" aria-label="Smaller code">A−</button><button class="fsUp" aria-label="Bigger code">A+</button><button class="stHelp" data-tab="h-ex">Examples</button><button class="stHelp" data-tab="h-sc">Scales</button><button id="stDone">Done</button></div>
+          <div class="sttop"><button class="stPlay">▶ Play</button><button class="stStop">■ Stop</button><span id="stCpm">30 cpm</span><span id="stCyc">cycle 0</span><span class="grow"></span><button class="fsDn" aria-label="Smaller code">A−</button><button class="fsUp" aria-label="Bigger code">A+</button><button class="stSave codeOnly">Save</button><button class="stLoad codeOnly">Load</button><button class="stHelp" data-tab="h-ex">Examples</button><button class="stHelp" data-tab="h-sc">Scales</button><button id="stDone">Done</button></div>
           <div class="stmain">
             <div class="codewrap"><pre id="codeHL" aria-hidden="true"></pre><textarea id="code" spellcheck="false" autocapitalize="off" autocomplete="off" autocorrect="off" inputmode="text" enterkeyhint="enter" aria-label="Strudel code"></textarea></div>
-            <div class="stside"><button class="stPlay" aria-label="Play">▶</button><button class="stStop" aria-label="Stop">■</button><button class="stHelp" data-tab="h-sc" aria-label="Help">?</button><div class="fsrow"><button class="fsDn" aria-label="Smaller code">A−</button><button class="fsUp" aria-label="Bigger code">A+</button></div></div>
+            <div class="stside"><button class="stPlay" aria-label="Play">▶</button><button class="stStop" aria-label="Stop">■</button><button class="stHelp" data-tab="h-sc" aria-label="Help">?</button><button class="stSave codeOnly" aria-label="Save code">SAVE</button><button class="stLoad codeOnly" aria-label="Saved codes">LOAD</button><div class="fsrow"><button class="fsDn" aria-label="Smaller code">A−</button><button class="fsUp" aria-label="Bigger code">A+</button></div></div>
             <div class="ststat" id="stStat">tap ▶ to play</div>
           </div>
           <div class="symbar"><button class="cur" data-t="◀" aria-label="Cursor left">◀</button><button class="cur" data-t="▶" aria-label="Cursor right">▶</button><button>"</button><button>&lt;</button><button>&gt;</button><button>[</button><button>]</button><button>(</button><button>)</button><button>-</button><button>~</button><button>*</button><button>/</button><button>,</button><button>:</button><button>.</button><button>!</button><button>@</button><button>_</button><button>#</button><button>$</button></div>
@@ -188,6 +193,7 @@ body.typing .ststat{right:8px}
   <span>Velocity: touch nearer the front of the key = louder · ⚙ or GLOBAL opens settings (MIDI, velocity, keyboard)</span>
 </div>
 <div class="settings" id="shelp"><div class="spanel"><div class="shead"><h1>Strudel</h1><button class="sb ghost" id="helpClose">Close</button></div><div class="sbody"></div></div></div>
+<div class="settings" id="snips"><div class="spanel"><div class="shead"><h1>My codes</h1><button class="sb ghost" id="snipClose">Close</button></div><div class="sbody"></div></div></div>
 <div class="settings" id="settings"><div class="spanel"><div class="shead"><h1>Settings</h1><button class="sb ghost" id="setClose">Close</button></div><div class="sbody"></div></div></div>
 <div class="start" id="start"><div>Tap to power on Strudel 37<small>Web Audio needs a tap to start</small></div></div>
 
@@ -2331,6 +2337,7 @@ try{ const j=JSON.parse(localStorage.getItem('s37_ui')||'{}'); SU.fs=j.fs||14; }
 const kbarea=document.getElementById('kbarea'), strEl=document.getElementById('strudel'), pianoEl=document.getElementById('pianoarea');
 const code=document.getElementById('code'), stStat=document.getElementById('stStat'), modeBtn=document.getElementById('zMode');
 const EXAMPLES=[
+ ['Strudel 37 demo','setcpm(250)\n$: note("<D5 F5 - D5 F5 - F5 - C5 E5 - C5 E5 - E5 - D5 G5 - D5 G5 - G5 - D5 F5 - D5 F5 - F5 ->")\n\n$: s("<- sd bd bd>").gain(.8).room(1)'],
  ['Note mini-notation','setcpm(30)\nnote("<C#4 [D3 - - -]>")'],
  ['Scale degrees','setcpm(30)\nn("<1 0 3>").scale("C:major")'],
  ['Changing scales','setcpm(32)\nn("0 2 4 <[6 5] 7>").scale("<C3:minor F3:dorian>")'],
@@ -2341,8 +2348,10 @@ const EXAMPLES=[
  ['Drum groove','setcpm(30)\n$: s("bd [~ bd] ~ bd, ~ cp ~ [cp rim], [hh hh oh hh]*2")\n$: s("<~ lt> <~ mt> ht cr").gain(.7)\n$: note("<c2 c2 eb2 g1>*4")'],
  ['Two layers ($:)','setcpm(30)\n// the synth is mono/duo: layers share its voices\n$: note("c2 ~ c2 [~ eb2]")\n$: n("<0 2 4 6>*4").scale("C4:minor")'],
 ];
-const DEFAULT_CODE='// Strudel 37: ▶ or Ctrl+Enter plays/updates, ■ stops\nsetcpm(30)\nnote("<C#4 [D3 - - -]>")\n// n("<1 0 3>").scale("C:major")';
-try{ code.value=localStorage.getItem('s37_code')||DEFAULT_CODE; }catch(e){ code.value=DEFAULT_CODE; }
+const DEFAULT_CODE='setcpm(250)\n$: note("<D5 F5 - D5 F5 - F5 - C5 E5 - C5 E5 - E5 - D5 G5 - D5 G5 - G5 - D5 F5 - D5 F5 - F5 ->")\n\n$: s("<- sd bd bd>").gain(.8).room(1)';
+// the demo shipped before 1.5: replaced by the new one if the user never edited it
+const OLD_DEFAULT_CODE='// Strudel 37: ▶ or Ctrl+Enter plays/updates, ■ stops\nsetcpm(30)\nnote("<C#4 [D3 - - -]>")\n// n("<1 0 3>").scale("C:major")';
+try{ const c=localStorage.getItem('s37_code'); code.value=(!c||c===OLD_DEFAULT_CODE)?DEFAULT_CODE:c; }catch(e){ code.value=DEFAULT_CODE; }
 code.addEventListener('input',()=>{ try{ localStorage.setItem('s37_code',code.value); }catch(e){} });
 function stStatus(t,err){ stStat.textContent=t; stStat.classList.toggle('err',!!err); }
 let lastCycle=-1;
@@ -2429,6 +2438,48 @@ function openHelp(tab){
 function closeHelp(){ helpEl.classList.remove('open'); }
 document.getElementById('helpClose').onclick=closeHelp;
 document.querySelectorAll('.stHelp').forEach(b=>b.onclick=()=>openHelp(b.dataset.tab));
+// saved codes (only offered in CODE mode): list of {name,code,t} in localStorage s37_snips
+const snipEl=document.getElementById('snips');
+const loadSnips=()=>{ try{ return JSON.parse(localStorage.getItem('s37_snips'))||[]; }catch(e){ return []; } };
+const storeSnips=a=>{ try{ localStorage.setItem('s37_snips',JSON.stringify(a)); return true; }catch(e){ return false; } };
+const escH=t=>String(t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function renderSnips(note){
+ const list=loadSnips().sort((a,b)=>b.t-a.t);
+ const first=(code.value.split('\n').find(l=>l.trim()&&!l.trim().startsWith('//'))||'').trim().slice(0,40);
+ snipEl.querySelector('.sbody').innerHTML=`
+  <h2>Save current code</h2>
+  <div class="row"><input type="text" id="snipName" maxlength="60" placeholder="Name" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"><button class="sb" id="snipSave">Save</button></div>
+  <p class="hint" id="snipNote">${note?escH(note):'Saving with an existing name replaces it.'}</p>
+  <h2>Saved codes (${list.length})</h2>
+  <ul class="devs">${list.length?list.map((x,i)=>`<li><span class="dn">${escH(x.name)}</span><span class="dt">${new Date(x.t).toLocaleDateString()}</span><span class="snipBtns"><button class="sb" data-load="${i}">Load</button><button class="sb ghost" data-del="${i}">Delete</button></span></li>`).join(''):'<li class="empty">Nothing saved yet</li>'}</ul>`;
+ const nameIn=snipEl.querySelector('#snipName');
+ nameIn.value=SU.snipName||'';
+ nameIn.placeholder=first?'Name, e.g. '+first:'Name';
+ const save=()=>{
+  const name=nameIn.value.trim()||('Code '+new Date().toLocaleString());
+  const all=loadSnips().filter(x=>x.name!==name);
+  all.push({name,code:code.value,t:Date.now()});
+  SU.snipName=name;
+  renderSnips(storeSnips(all)?'Saved “'+name+'”':'Could not save (storage full?)');
+ };
+ snipEl.querySelector('#snipSave').onclick=save;
+ nameIn.onkeydown=e=>{ if(e.key==='Enter'){ e.preventDefault(); save(); } };
+ snipEl.querySelectorAll('[data-load]').forEach(b=>b.onclick=()=>{
+  const x=list[+b.dataset.load]; SU.snipName=x.name;
+  code.value=x.code; code.dispatchEvent(new Event('input'));
+  closeSnips(); stStatus('loaded “'+x.name+'” · tap ▶ to play');
+ });
+ snipEl.querySelectorAll('[data-del]').forEach(b=>b.onclick=()=>{
+  if(b.dataset.sure){ const x=list[+b.dataset.del]; storeSnips(loadSnips().filter(y=>!(y.name===x.name&&y.t===x.t))); renderSnips('Deleted “'+x.name+'”'); }
+  else { b.dataset.sure=1; b.textContent='Sure?'; }
+ });
+ return nameIn;
+}
+function openSnips(focusName){ if(SU.typing) code.blur(); const n=renderSnips(); snipEl.classList.add('open'); if(focusName) n.focus(); }
+function closeSnips(){ snipEl.classList.remove('open'); }
+document.getElementById('snipClose').onclick=closeSnips;
+document.querySelectorAll('.stSave').forEach(b=>b.onclick=()=>openSnips(true));
+document.querySelectorAll('.stLoad').forEach(b=>b.onclick=()=>openSnips(false));
 // mode: KEYS (piano only), SPLIT (Strudel above the piano), CODE (Strudel only)
 const MODES=['keys','split','code'], MODE_LBL={keys:'KEYS',split:'SPLIT',code:'CODE'};
 function applyMode(){

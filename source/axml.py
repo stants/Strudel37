@@ -56,7 +56,7 @@ def axml(tree):
     out=pool(strings)+chunk(0x0180,8,b''.join(struct.pack('<I',IDS[n]) for n in attrs))+body
     return struct.pack('<HHI',0x0003,8,8+len(out))+out
 
-manifest=('manifest',[(None,'package',STR,'com.wil.strudel37'),(A,'versionCode',INT,6),(A,'versionName',STR,'1.4.1')],[
+manifest=('manifest',[(None,'package',STR,'com.wil.strudel37'),(A,'versionCode',INT,7),(A,'versionName',STR,'1.5')],[
   ('uses-sdk',[(A,'minSdkVersion',INT,24),(A,'targetSdkVersion',INT,34)],[]),
   # Bluetooth LE MIDI: legacy permissions up to Android 11, SCAN/CONNECT from Android 12
   ('uses-permission',[(A,'name',STR,'android.permission.BLUETOOTH'),(A,'maxSdkVersion',INT,30)],[]),

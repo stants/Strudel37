@@ -10,7 +10,7 @@ A full panel for a 2-oscillator paraphonic synth, with keyboard, arpeggiator and
 
 ![Android](https://img.shields.io/badge/Android-7.0%2B-3DDC84?logo=android&logoColor=white)
 ![HTML](https://img.shields.io/badge/HTML-single%20file-E34F26?logo=html5&logoColor=white)
-![Version](https://img.shields.io/badge/version-1.4.1-ff7a3d)
+![Version](https://img.shields.io/badge/version-1.5-ff7a3d)
 ![No dependencies](https://img.shields.io/badge/dependencies-none-555)
 [![Live demo](https://img.shields.io/badge/live%20demo-play%20now-ff7a3d?logo=github)](https://stants.github.io/Strudel37/)
 ![License](https://img.shields.io/badge/license-Apache%202.0-blue)
@@ -172,10 +172,33 @@ The code editor plays musical patterns in the style of [Strudel](https://strudel
 | Play or update | **▶ Play** or **Ctrl+Enter** |
 | Stop | **■ Stop** or **Ctrl+.** |
 | Examples, syntax and scales | the **?** button |
+| Save and load codes | **SAVE** / **LOAD** (CODE mode) |
 | Font size | **A−** / **A+** or pinch on the code |
 | Symbols (`" < > [ ] ~ *`…) | the bar above the soft keyboard, with **◀ ▶** to move the cursor |
 
-While a pattern plays, the sounding notes light up in the code, like on strudel.cc. Your code is saved automatically.
+While a pattern plays, the sounding notes light up in the code, like on strudel.cc. Your current code is kept automatically between sessions.
+
+### Saving your codes
+
+In **CODE** mode the side column gets two extra buttons (they stay hidden in KEYS and SPLIT, so the keyboard screen stays clean):
+
+- **SAVE** asks for a name and stores the current code. Saving with an existing name replaces it.
+- **LOAD** lists your saved codes, newest first, with **Load** and **Delete** (tap Delete twice to confirm).
+
+Saved codes live on the device (in the app, or in the browser's storage for the web version).
+
+### The startup demo
+
+This is the code that opens the first time you launch the app:
+
+```js
+setcpm(250)
+$: note("<D5 F5 - D5 F5 - F5 - C5 E5 - C5 E5 - E5 - D5 G5 - D5 G5 - G5 - D5 F5 - D5 F5 - F5 ->")
+
+$: s("<- sd bd bd>").gain(.8).room(1)
+```
+
+It is also the first entry under **?** → Examples, so you can bring it back any time.
 
 ### The basics
 
